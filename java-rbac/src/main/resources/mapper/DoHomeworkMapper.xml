@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.javarbac.mapper.DoHomeworkMapper">
+
+<!--    分页查询所有分类做好的作业-->
+    <select id="selectAllDoHomework" resultType="DoHomework">
+    SELECT
+    dh.id id,
+    u.name studentName,
+    h.name homeworkName,
+    dh.content content,
+    dh.status status
+    FROM
+    student_homeword_do shd,homework h,do_homework dh,user u
+    WHERE
+    shd.hid=h.id
+    AND
+    shd.did=dh.id
+    AND
+    shd.sid=u.id
+    AND
+    h.name = #{homeworkName}
+  </select>
+<!--    批改作业-->
+    <update id="updateDoHomeworkStatus">
+        update
+        do_homework
+        set
+        status=#{status}
+        where
+        id = #{did}
+    </update>
+<!--    根据学生id查询到学生已完成的作业-->
+    <select id="getAllReadyHomework" resultType="doHomework">
+         SELECT
+         h.id id,
+		 u.id uid,
+         u.name studentName,
+         h.name homeworkName,
+         dh.content content,
+         dh.status status
+         FROM
+         student_homeword_do shd,homework h,do_homework dh,user u
+         WHERE
+         shd.hid=h.id
+         AND
+         shd.did=dh.id
+         AND
+         shd.sid=u.id
+         AND
+         u.id=#{sid}
+         AND
+         h.name = #{homeworkName}
+    </select>
+
+<!--    插入作业-->
+    <insert id="insertDoHomework">
+        insert into
+        do_homework
+        (content)
+        values
+        (#{content})
+    </insert>
+    <insert id="insertStudentTeacherDo">
+        insert into
+        student_homeword_do
+        (sid,hid,did)
+         values
+        (#{sid},#{homework.id},(select id from do_homework where content = #{homework.content}))
+    </insert>
+</mapper>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.javarbac.mapper.HomeworkMapper">
+<!--    查询到所有老师布置的作业-->
+    <select id="selectAllHomework" resultType="Homework">
+         SELECT
+        h.id id,
+        h.name name,
+        h.ask ask
+        FROM
+        teacher_homework th,
+        homework h
+        WHERE
+        th.hid=h.id
+    </select>
+<!--    查询到某位老师的所有作业-->
+    <select id="selectAllHomeworkById" resultType="Homework">
+        SELECT
+        h.id id,
+        h.name name,
+        h.ask ask
+        FROM
+        teacher_homework th,
+        homework h
+        WHERE
+        th.hid=h.id
+        AND
+        th.tid=#{tid}
+  </select>
+
+<!--    通过作业id和老师id查询到某位老师布置的某一个作业-->
+    <select id="selectHomeworkById" resultType="Homework">
+        SELECT
+        h.id id,
+        h.name name,
+        h.ask ask
+        FROM
+        teacher_homework th,
+        homework h
+        WHERE
+        th.hid=h.id
+        AND
+        th.tid=#{tid}
+        AND
+        h.id = #{hid}
+  </select>
+<!--    通过作业id修改某位老师布置的某一个作业-->
+   <update id="updateHomeworkById">
+       update
+       homework
+       set
+       name=#{name},
+       ask=#{ask}
+       where
+       id=#{id}
+   </update>
+<!--    布置作业-->
+    <insert id="insertHomework">
+        insert into
+        homework
+        (name,ask) values (#{name},#{ask})
+    </insert>
+    <select id="selectAddHomework" resultType="homework">
+        select
+        *
+        from
+        homework
+        where
+        name =#{name}
+    </select>
+    <insert id="insertTeacherHomework">
+        insert
+        into
+        teacher_homework
+        (tid,hid) values (#{tid},#{hid})
+    </insert>
+<!--    删除某位老师的作业（先通过id删除作业，在删除关联表的数据）-->
+    <delete id="deleteHomework">
+        delete from
+        homework
+        where
+        id=#{hid}
+    </delete>
+    <delete id="deleteTeacherHomework">
+        delete from
+        teacher_homework
+        where
+        hid=#{hid}
+    </delete>
+</mapper>

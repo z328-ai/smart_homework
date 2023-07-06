@@ -1,0 +1,45 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/mvc_zengzhiqi?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: zzq@12345
+    type: com.alibaba.druid.pool.DruidDataSource
+
+  mail:
+    #    qq邮箱服务器地址
+    host: smtp.qq.com
+    #    自己的邮箱账号
+    username: 627389015@qq.com
+    #    授权码
+    password: sdnvurbshwdlbchf
+#    smtp服务端口号
+    port: 465
+#    properties:
+#      mail:
+#        smtp:
+#          socketFactory: javax.net.ssl.SSLSocketFactory
+    default-encoding: UTF-8
+    protocol: smtps
+mybatis:
+  mapper-locations: classpath*:/mapper/*Mapper.xml
+  type-aliases-package: com.itheima.javarbac.pojo
+logging:
+  level:
+    com.itheima.javarbac.mapper: debug
+jwt:
+  # JWT存储的请求头
+  tokenHeader: Authorization
+
+jasypt:
+  encryptor:
+    password: 12345
+    algorithm: PBEWithMD5AndDES
+    ivGeneratorClassname: org.jasypt.salt.RandomIVGenerator
+
+
+
+
+

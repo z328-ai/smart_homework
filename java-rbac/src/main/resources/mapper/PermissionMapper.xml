@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.javarbac.mapper.PermissionMapper">
+
+    <resultMap id="Menu" type="Permission">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="path" property="path"></result>
+        <result column="comment" property="comment"></result>
+        <result column="icon" property="icon"></result>
+    </resultMap>
+
+    <select id="selectUserMenu" resultMap="Menu">
+     SELECT
+     p.id id,p.name name,p.path path,p.comment comment,p.icon icon
+     FROM
+     user_role ur,role r,role_permission rp,permission p
+     WHERE ur.role_id=rp.role_id
+     AND rp.permission_id=p.id
+	 AND ur.role_id = r.id
+	 AND r.id = rp.role_id
+     AND ur.user_id=#{userid};
+  </select>
+</mapper>
